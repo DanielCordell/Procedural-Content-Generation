@@ -17,6 +17,7 @@ sf::Color biomeGrasslands(double val) {
 	if (val >= 0.15 && val < 0.22) return sf::Color(1, 116, 17); //Dark Green
 	if (val >= 0.22 && val < 0.33) return sf::Color(1, 142, 14); // Light Green
 	if (val >= 0.33 && val < 0.43) return sf::Color(1, 166, 17); // V Light Green
+
 	return sf::Color(238, 233, 233); // Snow
 }
 
