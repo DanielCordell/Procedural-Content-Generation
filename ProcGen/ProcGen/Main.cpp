@@ -30,7 +30,7 @@ sf::Color getColor(double val) {
 	return sf::Color(238, 233, 233); // Snow
 }
 
-sf::Color rangeToColor(int x, int y, FastNoise& noiseHeight, FastNoise& noiseBiome) {
+sf::Color rangeToColor(int x, int y, FastNoise& noiseHeight) {
 	auto noiseval = noiseHeight.GetNoise(x, y);
 	double height = (noiseval + 1) / 2.0f;
 
@@ -49,13 +49,12 @@ sf::Color rangeToColor(int x, int y, FastNoise& noiseHeight, FastNoise& noiseBio
 	
 }
 
-void populate(sf::VertexArray& grid, FastNoise& noiseHeight, FastNoise& noiseBiome) {
+void populate(sf::VertexArray& grid, FastNoise& noiseHeight) {
 
 	noiseHeight.SetSeed(time(nullptr));
-	noiseBiome.SetSeed(time(nullptr));
 	for (int x = 0; x < XMAX; ++x) {
 		for (int y = 0; y < YMAX; ++y) {
-			sf::Color color = rangeToColor(x, y, noiseHeight, noiseBiome);
+			sf::Color color = rangeToColor(x, y, noiseHeight);
 			for (int q = 0; q < 4; ++q) {
 				auto& vertex = grid[x*YMAX * 4 + y * 4 + q];
 				vertex.position = sf::Vector2f( static_cast<float>(x + (q>1? 1:0 )), static_cast<float>(y + (q==1 || q==2? 1:0)));
@@ -69,16 +68,9 @@ void populate(sf::VertexArray& grid, FastNoise& noiseHeight, FastNoise& noiseBio
 int main() {
 	sub = 0;
 	FastNoise noiseHeight;
-	FastNoise noiseBiome;
 
 	noiseHeight.SetNoiseType(FastNoise::PerlinFractal); // Set the desired noise type
 	noiseHeight.SetFractalOctaves(4);
-
-	noiseBiome.SetNoiseType(FastNoise::PerlinFractal); // Set the desired noise type
-	noiseBiome.SetFractalOctaves(4);
-	noiseBiome.SetFrequency(0.05);
-	noiseBiome.SetCellularJitter(0.95);
-
 
 	sf::RenderWindow window(sf::VideoMode(1280, 720),{});
 	sf::View view = window.getView();
@@ -94,13 +86,13 @@ int main() {
 		std::cout << ex.what() << std::endl;
 		std::cout << "Max Size: " << static_cast<int>(std::vector<sf::PrimitiveType>().max_size()) << " " << "Actual Size: " << XMAX*YMAX*4;
 	}
-	populate(grid,noiseHeight,noiseBiome);
+	populate(grid,noiseHeight);
 	while (true){
 		while (window.pollEvent(event)) {
 			switch (event.type) {
 			case sf::Event::Closed:
 				window.close();
-				break;
+				return 0;
 			case sf::Event::MouseButtonPressed:
 			case sf::Event::KeyPressed:
 				if (event.key.code == sf::Keyboard::Space) {
@@ -120,7 +112,7 @@ int main() {
 				}
 				else if (event.key.code == sf::Keyboard::L) {
 				}
-				populate(grid, noiseHeight, noiseBiome);
+				populate(grid, noiseHeight);
 			}
 
 		}
