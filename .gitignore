@@ -261,3 +261,4 @@ __pycache__/
 *.pyc
 /Roguelike/SFML-2.4.2
 /ProcGen/SFML-2.4.2
+/ProcGen/img.png
