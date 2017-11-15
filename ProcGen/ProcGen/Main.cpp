@@ -10,23 +10,15 @@
 #define YMAX 1440.0
 #define SCALE 1.4
 
-double sub;
-
-float lerp(float a, float b, float f)
-{
-	return a * (1.0 - f) + b * f;
-}
-
 
 sf::Color getColor(double val) {
-	val -= sub;
-	if (val <= 0.36) return sf::Color(0, 119, 190); // Deep Blue
-	if (val > 0.36 && val < 0.39) return sf::Color(0, 119, 190); // Light Blue
-	if (val >= 0.39 && val < 0.40) return sf::Color(239, 221, 111); // Sand
-	if (val >= 0.40 && val < 0.45) return sf::Color(1, 166, 17); //V Light Green
-	if (val >= 0.45 && val < 0.50) return sf::Color(1, 142, 14); // Light Green
-	if (val >= 0.50 && val < 0.55) return sf::Color(1, 116, 17); // Dark Green
-	if (val >= 0.55 && val < 0.60) return sf::Color(128, 132, 135);
+	if (val <= 0.34) return sf::Color(0, 119, 190); // Deep Blue
+	if (val > 0.34 && val < 0.37) return sf::Color(0, 119, 190); // Light Blue
+	if (val >= 0.37 && val < 0.38) return sf::Color(239, 221, 111); // Sand
+	if (val >= 0.38 && val < 0.43) return sf::Color(1, 166, 17); //V Light Green
+	if (val >= 0.43 && val < 0.48) return sf::Color(1, 142, 14); // Light Green
+	if (val >= 0.48 && val < 0.52) return sf::Color(1, 116, 17); // Dark Green
+	if (val >= 0.52 && val < 0.57) return sf::Color(128, 132, 135);
 	return sf::Color(238, 233, 233); // Snow
 }
 
@@ -44,7 +36,6 @@ sf::Color rangeToColor(int x, int y, FastNoise& noiseHeight) {
 	double circleGradient = (maxDistance - distFromCentre) / maxDistance;
 	height *= circleGradient;
 
-	//return sf::Color(lerp(0, 255, pixel), lerp(0, 255, pixel), lerp(0, 255, pixel));
 	return getColor(height);
 	
 }
@@ -57,6 +48,7 @@ void populate(sf::VertexArray& grid, FastNoise& noiseHeight) {
 			sf::Color color = rangeToColor(x, y, noiseHeight);
 			for (int q = 0; q < 4; ++q) {
 				auto& vertex = grid[x*YMAX * 4 + y * 4 + q];
+				//Hacky way to get each coordinate.
 				vertex.position = sf::Vector2f( static_cast<float>(x + (q>1? 1:0 )), static_cast<float>(y + (q==1 || q==2? 1:0)));
 				vertex.color = color;
 			}
@@ -66,28 +58,30 @@ void populate(sf::VertexArray& grid, FastNoise& noiseHeight) {
 
 
 int main() {
-	sub = 0;
 	FastNoise noiseHeight;
 
 	noiseHeight.SetNoiseType(FastNoise::PerlinFractal); // Set the desired noise type
 	noiseHeight.SetFractalOctaves(4);
 
-	sf::RenderWindow window(sf::VideoMode(1280, 720),{});
+	sf::RenderWindow window(sf::VideoMode(1280, 720), "Noise");
 	sf::View view = window.getView();
-	view.zoom(1.f/SCALE);
+	view.zoom(1.f / SCALE);
 	view.setCenter(XMAX / 2.f, YMAX / 2.f);
 	window.setView(view);
-	sf::Event event;
 	sf::VertexArray grid;
 	try {
 		grid = sf::VertexArray(sf::PrimitiveType::Quads, XMAX * YMAX * 4);
 	}
-	catch(std::exception ex) {
+	catch (std::exception ex) {
 		std::cout << ex.what() << std::endl;
-		std::cout << "Max Size: " << static_cast<int>(std::vector<sf::PrimitiveType>().max_size()) << " " << "Actual Size: " << XMAX*YMAX*4;
+		std::cout << "Max Size: " << static_cast<int>(std::vector<sf::PrimitiveType>().max_size()) << " " << "Actual Size: " << XMAX*YMAX * 4;
+		return 0;
 	}
-	populate(grid,noiseHeight);
-	while (true){
+	//Initial population
+	populate(grid, noiseHeight);
+
+	sf::Event event;
+	while (true) {
 		while (window.pollEvent(event)) {
 			switch (event.type) {
 			case sf::Event::Closed:
@@ -95,14 +89,9 @@ int main() {
 				return 0;
 			case sf::Event::MouseButtonPressed:
 			case sf::Event::KeyPressed:
-				if (event.key.code == sf::Keyboard::Space) {
-					auto newNoiseType = static_cast<FastNoise::NoiseType>(int(noiseHeight.GetNoiseType()) + 1);
-					if (newNoiseType > FastNoise::NoiseType::CubicFractal) newNoiseType = FastNoise::NoiseType::Value;
-					noiseHeight.SetNoiseType(newNoiseType);
-				}
-				else if (event.key.code == sf::Keyboard::S) {
+				if (event.key.code == sf::Keyboard::S) {
 					sf::RenderTexture tex;
-					tex.create(XMAX/2.f, YMAX/2.f);
+					tex.create(XMAX / 2.f, YMAX / 2.f);
 					tex.clear();
 					tex.setView(view);
 					tex.draw(grid);
@@ -110,15 +99,14 @@ int main() {
 					tex.getTexture().copyToImage().saveToFile("../img.png");
 					break;
 				}
-				else if (event.key.code == sf::Keyboard::L) {
+				else {
+					populate(grid, noiseHeight);
 				}
-				populate(grid, noiseHeight);
+
 			}
-
+			window.clear(sf::Color::Black);
+			window.draw(grid);
+			window.display();
 		}
-
-		window.clear(sf::Color::Black);
-		window.draw(grid);
-		window.display();
 	}
 }
