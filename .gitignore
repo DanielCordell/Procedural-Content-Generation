@@ -261,8 +261,8 @@ __pycache__/
 *.pyc
 /ProcGen/SFML-2.4.2
 /ProcGen/img.png
-.sln
-.vcxproj
-.vcxproj.user
-.vcxproj.filters
+*.sln
+*.vcxproj
+*.vcxproj.user
+*.vcxproj.filters
 
