@@ -6,14 +6,17 @@
 
 #include "Sizes.h"
 #include "Populate.h"
+#include "Cities.h"
 
 std::shared_ptr<bool> isGenerating;
 bool doQuit = false;
 sf::VertexArray grid;
+Cities cities;
 
 void populate() {
 	while (!doQuit) {
 		if (*isGenerating) {
+			cities.clear();
 			//First Pass - Generate Heightmap
 			PopulateHeightMap(grid);
 
@@ -21,7 +24,7 @@ void populate() {
 			//PopulateNature(grid);
 
 			//Third Pass - Give Cities
-			PopulateCities(grid);
+			PopulateCities(grid, cities);
 
 			*isGenerating = false;
 		}
@@ -30,7 +33,11 @@ void populate() {
 
 
 int main() {
+	cities.init();
+	
 	isGenerating = std::make_shared<bool>(true);
+
+
 
 	sf::RenderWindow window(sf::VideoMode(1280, 720), "Noise");
 	sf::View view = window.getView();
@@ -77,6 +84,7 @@ int main() {
 		}
 		window.clear(sf::Color::Black);			
 		window.draw(grid);
+		window.draw(cities);
 		window.display();
 	}
 	thread.join();

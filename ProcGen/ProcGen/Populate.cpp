@@ -5,7 +5,6 @@
 #include "FastNoise.h"
 #include "Sizes.h"
 #include "HeightMap.h"
-#include "Cities.h"
 
 void PopulateHeightMap(sf::VertexArray & grid)
 {
@@ -26,11 +25,11 @@ void PopulateHeightMap(sf::VertexArray & grid)
 	}
 }
 
-void PopulateCities(sf::VertexArray & grid)
+void PopulateCities(sf::VertexArray & grid, Cities& cities)
 {
 	srand(time(nullptr));
 
-	int numberOfCities = rand() % 3 + 2;
+	int numberOfCities = rand() % 3 + 3;
 	for (int i = 0; i < numberOfCities; ++i) {
 		bool foundCityLocation = false;
 		sf::Vector2i position;
@@ -43,12 +42,7 @@ void PopulateCities(sf::VertexArray & grid)
 			if (CanHaveVillage(vertex)) {
 				foundCityLocation = true;
 				std::cout << "New City " << position.x << " " << position.y << std::endl;
-				for (int a = 0; a < 4; ++a) {
-					auto toBlacken = getCityCoords(position);
-					for (auto coord : toBlacken) {
-						grid[coord.x*YMAX * 4 + coord.y * 4 + a].color = sf::Color::Black;
-					}
-				}
+				cities.add(position);
 			}
 		}
 	}
