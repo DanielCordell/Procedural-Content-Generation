@@ -19,11 +19,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Cities.cpp" />
     <ClCompile Include="FastNoise.cpp" />
+    <ClCompile Include="HeightMap.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Populate.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Cities.h" />
     <ClInclude Include="FastNoise.h" />
+    <ClInclude Include="HeightMap.h" />
+    <ClInclude Include="Populate.h" />
+    <ClInclude Include="Sizes.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -89,7 +96,7 @@
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)SFML-2.4.2\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>winmm.lib;sfml-system-s-d.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;sfml-audio-s-d.lib;opengl32.lib;gdi32.lib;sfml-window-s-d.lib;freetype.lib;jpeg.lib;sfml-graphics-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EntryPointSymbol>
       </EntryPointSymbol>
       <AdditionalOptions>/ENTRY:"mainCRTStartup" %(AdditionalOptions)</AdditionalOptions>
@@ -117,7 +124,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)SFML-2.4.2\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>winmm.lib;sfml-system-s.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;sfml-audio-s.lib;opengl32.lib;gdi32.lib;sfml-window-s.lib;freetype.lib;jpeg.lib;sfml-graphics-s.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EntryPointSymbol>
       </EntryPointSymbol>
       <AdditionalOptions>/ENTRY:"mainCRTStartup" %(AdditionalOptions)</AdditionalOptions>

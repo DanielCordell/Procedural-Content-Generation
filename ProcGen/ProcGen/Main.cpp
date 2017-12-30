@@ -4,94 +4,67 @@
 #include <mutex>
 #include <iostream>
 
-#include "FastNoise.h"
+#include "Sizes.h"
+#include "Populate.h"
 
-#define XMAX 2560.0
-#define YMAX 1440.0
-#define SCALE 1.4
+std::shared_ptr<bool> isGenerating;
+bool doQuit = false;
+sf::VertexArray grid;
 
+void populate() {
+	while (!doQuit) {
+		if (*isGenerating) {
+			//First Pass - Generate Heightmap
+			PopulateHeightMap(grid);
 
-sf::Color getColor(double val) {
-	if (val <= 0.34) return sf::Color(0, 119, 190); // Deep Blue
-	if (val > 0.34 && val < 0.37) return sf::Color(0, 119, 190); // Light Blue
-	if (val >= 0.37 && val < 0.38) return sf::Color(239, 221, 111); // Sand
-	if (val >= 0.38 && val < 0.43) return sf::Color(1, 166, 17); //V Light Green
-	if (val >= 0.43 && val < 0.48) return sf::Color(1, 142, 14); // Light Green
-	if (val >= 0.48 && val < 0.52) return sf::Color(1, 116, 17); // Dark Green
-	if (val >= 0.52 && val < 0.57) return sf::Color(128, 132, 135);
-	return sf::Color(238, 233, 233); // Snow
-}
+			//Second Pass - Give Nature
+			//PopulateNature(grid);
 
-sf::Color rangeToColor(int x, int y, FastNoise& noiseHeight) {
-	auto noiseval = noiseHeight.GetNoise(x, y);
-	double height = (noiseval + 1) / 2.0f;
+			//Third Pass - Give Cities
+			PopulateCities(grid);
 
-	sf::Vector2<double> centre{ XMAX / 2.0f, YMAX / 2.0f };
-
-	double distFromCentre = sqrt(pow(centre.x - x, 2) + pow(centre.y - y, 2));
-	double maxDistance = sqrt(pow(centre.x - std::max(XMAX, YMAX) / 2.0f, 2) + pow(centre.y - std::max(XMAX, YMAX) / 2.0f, 2));
-	if (distFromCentre > maxDistance){
-		distFromCentre = maxDistance;
-	}
-	double circleGradient = (maxDistance - distFromCentre) / maxDistance;
-	height *= circleGradient;
-
-	return getColor(height);
-	
-}
-
-void populate(sf::VertexArray& grid, FastNoise& noiseHeight) {
-
-	noiseHeight.SetSeed(time(nullptr));
-	for (int x = 0; x < XMAX; ++x) {
-		for (int y = 0; y < YMAX; ++y) {
-			sf::Color color = rangeToColor(x, y, noiseHeight);
-			for (int q = 0; q < 4; ++q) {
-				auto& vertex = grid[x*YMAX * 4 + y * 4 + q];
-				//Hacky way to get each coordinate.
-				vertex.position = sf::Vector2f( static_cast<float>(x + (q>1? 1:0 )), static_cast<float>(y + (q==1 || q==2? 1:0)));
-				vertex.color = color;
-			}
+			*isGenerating = false;
 		}
 	}
 }
 
 
 int main() {
-	FastNoise noiseHeight;
-
-	noiseHeight.SetNoiseType(FastNoise::PerlinFractal); // Set the desired noise type
-	noiseHeight.SetFractalOctaves(4);
+	isGenerating = std::make_shared<bool>(true);
 
 	sf::RenderWindow window(sf::VideoMode(1280, 720), "Noise");
 	sf::View view = window.getView();
 	view.zoom(1.f / SCALE);
 	view.setCenter(XMAX / 2.f, YMAX / 2.f);
 	window.setView(view);
-	sf::VertexArray grid;
 	try {
 		grid = sf::VertexArray(sf::PrimitiveType::Quads, XMAX * YMAX * 4);
+		for (int i = 0; i < grid.getVertexCount(); i++) {
+			grid[i].color = sf::Color::Green;
+		}
 	}
 	catch (std::exception ex) {
 		std::cout << ex.what() << std::endl;
 		std::cout << "Max Size: " << static_cast<int>(std::vector<sf::PrimitiveType>().max_size()) << " " << "Actual Size: " << XMAX*YMAX * 4;
 		return 0;
 	}
-	//Initial population
-	populate(grid, noiseHeight);
+	std::thread thread = std::thread(populate);
 
-	sf::Event event;
 	while (true) {
+		if (doQuit) break;
+
+		sf::Event event;
 		while (window.pollEvent(event)) {
 			switch (event.type) {
 			case sf::Event::Closed:
 				window.close();
-				return 0;
+				doQuit = true;
 			case sf::Event::MouseButtonPressed:
 			case sf::Event::KeyPressed:
+				if (*isGenerating) break;
 				if (event.key.code == sf::Keyboard::S) {
 					sf::RenderTexture tex;
-					tex.create(XMAX / 2.f, YMAX / 2.f);
+					tex.create(XMAX  * SCALE, YMAX  * SCALE);
 					tex.clear();
 					tex.setView(view);
 					tex.draw(grid);
@@ -99,14 +72,12 @@ int main() {
 					tex.getTexture().copyToImage().saveToFile("../img.png");
 					break;
 				}
-				else {
-					populate(grid, noiseHeight);
-				}
-
+				*isGenerating = true;
 			}
-			window.clear(sf::Color::Black);
-			window.draw(grid);
-			window.display();
 		}
+		window.clear(sf::Color::Black);			
+		window.draw(grid);
+		window.display();
 	}
+	thread.join();
 }
