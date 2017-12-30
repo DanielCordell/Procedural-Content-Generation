@@ -29,8 +29,17 @@ void PopulateCities(sf::VertexArray & grid, Cities& cities)
 {
 	srand(time(nullptr));
 
-	int numberOfCities = rand() % 3 + 3;
-	for (int i = 0; i < numberOfCities; ++i) {
+	//Generate City Sizes
+	int numberOfCities = rand() % 3;
+	int smallNum = 1, medNum = 1, largeNum = 1;
+	for (int temp = numberOfCities; temp > 0; --temp) {
+		int whichToIncrease = rand() % 3;
+		if (whichToIncrease == 0) ++smallNum;
+		else if (whichToIncrease == 1) ++medNum;
+		else largeNum++;
+	}
+
+	for (int i = 0; i < numberOfCities + 3; ++i) {
 		bool foundCityLocation = false;
 		sf::Vector2i position;
 		while (!foundCityLocation) {
@@ -42,7 +51,10 @@ void PopulateCities(sf::VertexArray & grid, Cities& cities)
 			if (CanHaveVillage(vertex)) {
 				foundCityLocation = true;
 				std::cout << "New City " << position.x << " " << position.y << std::endl;
-				cities.add(position);
+
+				//Choose a city size
+
+				cities.add(position, chooseCitySize(smallNum, medNum, largeNum));
 			}
 		}
 	}

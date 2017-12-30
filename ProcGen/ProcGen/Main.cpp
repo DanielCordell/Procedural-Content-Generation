@@ -11,9 +11,8 @@
 std::shared_ptr<bool> isGenerating;
 bool doQuit = false;
 sf::VertexArray grid;
-Cities cities;
 
-void populate() {
+void populate(Cities& cities) {
 	while (!doQuit) {
 		if (*isGenerating) {
 			cities.clear();
@@ -33,6 +32,7 @@ void populate() {
 
 
 int main() {
+	Cities cities;
 	cities.init();
 	
 	isGenerating = std::make_shared<bool>(true);
@@ -55,7 +55,7 @@ int main() {
 		std::cout << "Max Size: " << static_cast<int>(std::vector<sf::PrimitiveType>().max_size()) << " " << "Actual Size: " << XMAX*YMAX * 4;
 		return 0;
 	}
-	std::thread thread = std::thread(populate);
+	std::thread thread = std::thread(populate, cities);
 
 	while (true) {
 		if (doQuit) break;

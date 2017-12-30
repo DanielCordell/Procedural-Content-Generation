@@ -12,20 +12,15 @@ void Cities::init()
 	tex.loadFromFile("Resources/town.png");
 }
 
-void Cities::add(sf::Vector2i position)
+void Cities::add(sf::Vector2i position, CitySize size)
 {
-	sf::Sprite newCity;
-	newCity.setTexture(tex);
-	newCity.setOrigin(newCity.getGlobalBounds().width / 2.f, newCity.getGlobalBounds().height / 2.f);
-	newCity.setPosition(position.x, position.y);
-	float scaleFactor = (rand() % 3 + 1) * 0.3;
-	newCity.setScale(scaleFactor, scaleFactor);
+	City newCity(position, tex, size);
 	cities.push_back(newCity);
 }
 
 void Cities::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
-	for (auto sprite : cities) target.draw(sprite, states);
+	for (City city : cities) target.draw(city, states);
 }
 
 
@@ -34,4 +29,23 @@ bool CanHaveVillage(sf::Vertex position)
 	sf::Color color = position.color;
 	if (color == Colors::LightGreen || color == Colors::Green || color == Colors::DarkGreen || color == Colors::Stone) return true;
 	return false;
+}
+
+CitySize chooseCitySize(int & small, int & med, int & large)
+{
+	while (true) {
+		int whichToChoose = rand() % 3;
+		if (whichToChoose == 0 && small > 0) {
+			--small;
+			return Small;
+		}
+		if (whichToChoose == 1 && med > 0) {
+			--med;
+			return Medium;
+		}
+		if (whichToChoose == 2 && large > 0) {
+			--large;
+			return Large;
+		}
+	}
 }
