@@ -3,10 +3,11 @@
 #include <SFML/Graphics.hpp>
 
 #include "City.h"
+#include <memory>
 
 class Cities : public sf::Drawable {
 private:
-	std::vector<City> cities;
+	std::vector<std::shared_ptr<City>> cities;
 	sf::Texture tex;
 public:
 	void clear();

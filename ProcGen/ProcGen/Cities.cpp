@@ -6,7 +6,6 @@ void Cities::clear() {
 	cities.clear();
 }
 
-//Todo: Create a City Class so sizes can be enum based or something
 void Cities::init()
 {
 	tex.loadFromFile("Resources/town.png");
@@ -14,13 +13,20 @@ void Cities::init()
 
 void Cities::add(sf::Vector2i position, CitySize size)
 {
-	City newCity(position, tex, size);
-	cities.push_back(newCity);
+	std::cout << "ADDING CITY of size " <<  size << "\n";
+	std::cout << "Length Before: " << cities.size() << "\n";
+	
+	cities.push_back(std::make_shared<City>(position, tex, size));
+	std::cout << "Length After: " << cities.size() << "\n";
 }
 
 void Cities::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
-	for (City city : cities) target.draw(city, states);
+	//std::cout << "Length: " << cities.size() << "\n";
+	for (std::shared_ptr<City> city : cities) {
+		std::cout << "DRAWING1\n";
+		target.draw(*city, states);
+	}
 }
 
 

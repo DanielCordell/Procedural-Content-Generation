@@ -11,7 +11,6 @@
 std::shared_ptr<bool> isGenerating;
 bool doQuit = false;
 sf::VertexArray grid;
-
 void populate(Cities& cities) {
 	while (!doQuit) {
 		if (*isGenerating) {
@@ -32,6 +31,8 @@ void populate(Cities& cities) {
 
 
 int main() {
+	srand(time(nullptr));
+
 	Cities cities;
 	cities.init();
 	

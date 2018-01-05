@@ -27,7 +27,6 @@ void PopulateHeightMap(sf::VertexArray & grid)
 
 void PopulateCities(sf::VertexArray & grid, Cities& cities)
 {
-	srand(time(nullptr));
 
 	//Generate City Sizes
 	int numberOfCities = rand() % 3;
@@ -38,14 +37,14 @@ void PopulateCities(sf::VertexArray & grid, Cities& cities)
 		else if (whichToIncrease == 1) ++medNum;
 		else largeNum++;
 	}
-
+	std::cout << "Finding " << numberOfCities + 3 << " City Locations\n";
 	for (int i = 0; i < numberOfCities + 3; ++i) {
 		bool foundCityLocation = false;
 		sf::Vector2i position;
 		while (!foundCityLocation) {
 			position.x = rand() % int(XMAX * 0.6) + int(XMAX * 0.2);
 			position.y = rand() % int(YMAX);
-			std::cout << "Try to build city at: " << position.x << " " << position.y << std::endl;
+			//std::cout << "Try to build city at: " << position.x << " " << position.y << std::endl;
 			int gridIndex = position.x*YMAX * 4 + position.y * 4;
 			auto vertex = grid[gridIndex];
 			if (CanHaveVillage(vertex)) {
@@ -58,5 +57,6 @@ void PopulateCities(sf::VertexArray & grid, Cities& cities)
 			}
 		}
 	}
+	std::cout << "Found All City Locations!\n\n";
 }
 
