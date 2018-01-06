@@ -56,7 +56,7 @@ int main() {
 		std::cout << "Max Size: " << static_cast<int>(std::vector<sf::PrimitiveType>().max_size()) << " " << "Actual Size: " << XMAX*YMAX * 4;
 		return 0;
 	}
-	std::thread thread = std::thread(populate, cities);
+	std::thread thread = std::thread(populate, std::ref(cities));
 
 	while (true) {
 		if (doQuit) break;
@@ -65,7 +65,6 @@ int main() {
 		while (window.pollEvent(event)) {
 			switch (event.type) {
 			case sf::Event::Closed:
-				window.close();
 				doQuit = true;
 			case sf::Event::MouseButtonPressed:
 			case sf::Event::KeyPressed:
@@ -89,4 +88,5 @@ int main() {
 		window.display();
 	}
 	thread.join();
+	window.close();
 }

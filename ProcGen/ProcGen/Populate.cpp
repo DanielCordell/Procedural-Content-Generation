@@ -57,6 +57,5 @@ void PopulateCities(sf::VertexArray & grid, Cities& cities)
 			}
 		}
 	}
-	std::cout << "Found All City Locations!\n\n";
 }
 

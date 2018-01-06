@@ -1,6 +1,5 @@
 #include "Cities.h"
 #include "HeightMap.h"
-#include <iostream>
 
 void Cities::clear() {
 	cities.clear();
@@ -13,18 +12,13 @@ void Cities::init()
 
 void Cities::add(sf::Vector2i position, CitySize size)
 {
-	std::cout << "ADDING CITY of size " <<  size << "\n";
-	std::cout << "Length Before: " << cities.size() << "\n";
-	
 	cities.push_back(std::make_shared<City>(position, tex, size));
-	std::cout << "Length After: " << cities.size() << "\n";
 }
 
 void Cities::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 	//std::cout << "Length: " << cities.size() << "\n";
 	for (std::shared_ptr<City> city : cities) {
-		std::cout << "DRAWING1\n";
 		target.draw(*city, states);
 	}
 }
