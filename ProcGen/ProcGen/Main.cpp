@@ -1,12 +1,14 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 
+#include <cstdlib>
 #include <mutex>
 #include <iostream>
 
 #include "Sizes.h"
 #include "Populate.h"
 #include "Cities.h"
+#include "CityDataRepresenter.h"
 
 std::shared_ptr<bool> isGenerating;
 bool doQuit = false;
@@ -14,7 +16,7 @@ sf::VertexArray grid;
 void populate(Cities& cities) {
 	while (!doQuit) {
 		if (*isGenerating) {
-			cities.clear();
+			cities.Clear();
 			//First Pass - Generate Heightmap
 			PopulateHeightMap(grid);
 
@@ -32,15 +34,11 @@ void populate(Cities& cities) {
 
 int main() {
 	srand(time(nullptr));
-
 	Cities cities;
-	cities.init();
-	
+	cities.Init();
+	CityDataRepresenter cityData;
 	isGenerating = std::make_shared<bool>(true);
-
-
-
-	sf::RenderWindow window(sf::VideoMode(1280, 720), "Noise");
+	sf::RenderWindow window(sf::VideoMode(1280, 720), "Noise", sf::Style::Default, sf::ContextSettings{0,0,2});
 	sf::View view = window.getView();
 	view.zoom(1.f / SCALE);
 	view.setCenter(XMAX / 2.f, YMAX / 2.f);
@@ -58,7 +56,13 @@ int main() {
 	}
 	std::thread thread = std::thread(populate, std::ref(cities));
 
+	sf::Clock c;
+	sf::Time sinceLastTick = sf::Time::Zero;
 	while (true) {
+		if (sinceLastTick.asSeconds() < 1 / 60.f) {
+			sinceLastTick += c.restart();
+			continue;
+		}
 		if (doQuit) break;
 
 		sf::Event event;
@@ -85,6 +89,8 @@ int main() {
 		window.clear(sf::Color::Black);			
 		window.draw(grid);
 		window.draw(cities);
+		window.draw(cityData);
+
 		window.display();
 	}
 	thread.join();

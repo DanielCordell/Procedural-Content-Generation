@@ -1,16 +1,16 @@
 #include "Cities.h"
 #include "HeightMap.h"
 
-void Cities::clear() {
+void Cities::Clear() {
 	cities.clear();
 }
 
-void Cities::init()
+void Cities::Init()
 {
 	tex.loadFromFile("Resources/town.png");
 }
 
-void Cities::add(sf::Vector2i position, CitySize size)
+void Cities::Add(sf::Vector2i position, CitySize size)
 {
 	cities.push_back(std::make_shared<City>(position, tex, size));
 }
@@ -31,7 +31,7 @@ bool CanHaveVillage(sf::Vertex position)
 	return false;
 }
 
-CitySize chooseCitySize(int & small, int & med, int & large)
+CitySize ChooseCitySize(int & small, int & med, int & large)
 {
 	while (true) {
 		int whichToChoose = rand() % 3;

@@ -41,19 +41,20 @@ void PopulateCities(sf::VertexArray & grid, Cities& cities)
 	for (int i = 0; i < numberOfCities + 3; ++i) {
 		bool foundCityLocation = false;
 		sf::Vector2i position;
-		while (!foundCityLocation) {
+		while (true) {
 			position.x = rand() % int(XMAX * 0.6) + int(XMAX * 0.2);
 			position.y = rand() % int(YMAX);
 			//std::cout << "Try to build city at: " << position.x << " " << position.y << std::endl;
 			int gridIndex = position.x*YMAX * 4 + position.y * 4;
 			auto vertex = grid[gridIndex];
 			if (CanHaveVillage(vertex)) {
-				foundCityLocation = true;
+
 				std::cout << "New City " << position.x << " " << position.y << std::endl;
 
 				//Choose a city size
 
-				cities.add(position, chooseCitySize(smallNum, medNum, largeNum));
+				cities.Add(position, ChooseCitySize(smallNum, medNum, largeNum));
+				break;
 			}
 		}
 	}
