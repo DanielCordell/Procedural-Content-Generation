@@ -2,7 +2,6 @@
 
 #include <algorithm>
 
-
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/System/Vector2.hpp>
 
@@ -19,7 +18,6 @@ struct Colors {
 	static const sf::Color Stone;
 	static const sf::Color Snow;
 };
-
 
 const sf::Vector2<double> centre{ XMAX / 2.0f, YMAX / 2.0f };
 const double maxDistance = sqrt(pow(centre.x - std::max(XMAX, YMAX) / 2.0f, 2) + pow(centre.y - std::max(XMAX, YMAX) / 2.0f, 2));

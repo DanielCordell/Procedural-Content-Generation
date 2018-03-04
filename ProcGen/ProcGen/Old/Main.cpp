@@ -10,6 +10,7 @@
 #include "Cities.h"
 #include "CityDataRepresenter.h"
 
+/*
 std::shared_ptr<bool> isGenerating;
 bool doQuit = false;
 sf::VertexArray grid;
@@ -96,3 +97,4 @@ int main() {
 	thread.join();
 	window.close();
 }
+*/
