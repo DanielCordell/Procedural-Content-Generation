@@ -6,20 +6,24 @@
 //https://upload.wikimedia.org/wikipedia/commons/6/68/Climate_influence_on_terrestrial_biome.svg
 
 enum Biome {
-	Rainforest,
-	Swamp,
-	ForestSeasonal,
-	Forest,
-	Savanna,
-	Woods,
-	Taiga,
-	Desert,
-	DesertGrassy,
-	Tundra,
-	Volcano,		//Override other biomes if heightmap over value (hot)
-	Mountain,		//Override other biomes if heightmap over value (cold)
-	Ocean			//Override other biomes of heightmap under value
+ //	Biome Name		  Grass Color
+	Rainforest,		//Deep Green
+	Swamp,			//Blueish Brownish Green
+	ForestSeasonal,	//Brownish Green
+	Forest,			//Bright Green
+	Savanna,		//Greenish Brown
+	Woods,			//Bright 
+	Taiga,			//Whiteish Brown
+	Desert,			//Yellow
+	DesertGrassy,	//Yellowish Green
+	Tundra,			//White/Grey
+	Volcano,		//Reddish Brown - Override other biomes if heightmap over value (hot) 
+	Mountain,		//Whiteish Brown - Override other biomes if heightmap over value (cold)
+	Ocean			//Blue Override other biomes of heightmap under value
 };
+
+//The colour of grass tiles in biomes will be dependant on the biome itself.
+//A biome can have multiple different tile types in it (so grass + snow for a tundra).
 
 enum class Ground {
 	Dirt,			// Brown Color
