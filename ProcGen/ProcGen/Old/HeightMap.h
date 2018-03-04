@@ -1,5 +1,5 @@
 #pragma once
-
+/*
 #include <algorithm>
 
 #include <SFML/Graphics/Color.hpp>
@@ -25,3 +25,5 @@ const double maxDistance = sqrt(pow(centre.x - std::max(XMAX, YMAX) / 2.0f, 2) +
 sf::Color heightToColor(double height);
 
 sf::Color rangeToColor(int x, int y, FastNoise& noiseHeight);
+
+*/

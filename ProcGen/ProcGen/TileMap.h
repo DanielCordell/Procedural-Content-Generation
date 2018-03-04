@@ -19,5 +19,5 @@ private:
 public:
 	TileMap(unsigned x = 1280, unsigned y = 720);
 
-	bool SetTile()
+	bool SetTile();
 };

@@ -1,5 +1,5 @@
 #pragma once
-
+/*
 #include <memory>
 #include <SFML/Graphics.hpp>
 
@@ -29,3 +29,5 @@ public:
 	const sf::Vector2f GetLocation() const;
 	const bool IsActive() const;
 };
+
+*/

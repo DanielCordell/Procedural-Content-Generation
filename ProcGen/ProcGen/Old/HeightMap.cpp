@@ -1,3 +1,4 @@
+/*
 #include "HeightMap.h"
 
 //Functions related to generating heightmap
@@ -39,3 +40,4 @@ const sf::Color Colors::Green(1, 142, 14);
 const sf::Color Colors::DarkGreen(1, 116, 17);
 const sf::Color Colors::Stone(128, 132, 135);
 const sf::Color Colors::Snow(238, 233, 233);
+*/

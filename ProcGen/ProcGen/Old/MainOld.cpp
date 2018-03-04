@@ -1,3 +1,5 @@
+
+/*
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 
@@ -10,7 +12,7 @@
 #include "Cities.h"
 #include "CityDataRepresenter.h"
 
-/*
+
 std::shared_ptr<bool> isGenerating;
 bool doQuit = false;
 sf::VertexArray grid;

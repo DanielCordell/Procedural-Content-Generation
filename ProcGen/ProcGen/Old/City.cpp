@@ -1,3 +1,4 @@
+/*
 #include "City.h"
 
 
@@ -19,3 +20,4 @@ const sf::Vector2f City::GetLocation() const
 {
 	return sprite.getPosition();
 }
+*/

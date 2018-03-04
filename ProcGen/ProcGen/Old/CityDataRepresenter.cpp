@@ -1,7 +1,8 @@
+/*
 #include "CityDataRepresenter.h"
 #include "Sizes.h"
 #include <iostream>
-
+/*
 CityDataRepresenter::CityDataRepresenter() {
 	background.setFillColor(sf::Color::Red);
 	background.setSize({ 200,200 });
@@ -17,3 +18,4 @@ void CityDataRepresenter::DisplayCityData(City & city) {
 void CityDataRepresenter::draw(sf::RenderTarget & target, sf::RenderStates states) const {
 	target.draw(background);
 }
+*/

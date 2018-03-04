@@ -1,6 +1,7 @@
+/*
+
 #include <ctime>
 #include <iostream>
-
 #include "Populate.h"
 #include "FastNoise.h"
 #include "Sizes.h"
@@ -60,3 +61,4 @@ void PopulateCities(sf::VertexArray & grid, Cities& cities)
 	}
 }
 
+*/

@@ -1,5 +1,5 @@
 #pragma once
-
+/*
 #include "City.h"
 
 class CityDataRepresenter: public sf::Drawable {
@@ -13,3 +13,5 @@ public:
 	void DisplayCityData(City& city);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 };
+
+*/

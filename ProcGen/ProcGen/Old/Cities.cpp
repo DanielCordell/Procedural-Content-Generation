@@ -1,3 +1,5 @@
+
+/*
 #include "Cities.h"
 #include "HeightMap.h"
 
@@ -49,3 +51,4 @@ CitySize ChooseCitySize(int & small, int & med, int & large)
 		}
 	}
 }
+*/

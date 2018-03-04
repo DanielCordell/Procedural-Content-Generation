@@ -1,10 +1,11 @@
 #pragma once
+/*
 #include <vector>
 #include <SFML/Graphics.hpp>
 
 #include "City.h"
 #include <memory>
-
+/*
 class Cities : public sf::Drawable {
 private:
 	std::vector<std::shared_ptr<City>> cities;
@@ -19,3 +20,4 @@ public:
 bool CanHaveVillage(sf::Vertex position);
 
 CitySize ChooseCitySize(int& small, int& med, int& large);
+*/
