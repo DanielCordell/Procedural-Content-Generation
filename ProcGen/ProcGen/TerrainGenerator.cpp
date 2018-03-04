@@ -1,3 +1,5 @@
+#include <cstdlib>
+
 #include "TerrainGenerator.h"
 
 FastNoise TerrainGenerator::height;
@@ -9,4 +11,17 @@ void TerrainGenerator::InitialiseNoise() {
 	height.SetSeed(rand());
 	precipitation.SetSeed(rand());
 	temperature.SetSeed(rand());
+}
+
+float TerrainGenerator::getHeight(float x, float y) {
+	return (height.GetNoise(x, y) + 1) / 2;
+
+}
+
+float TerrainGenerator::getPrecipitation(float x, float y) {
+	return (precipitation.GetNoise(x, y) + 1) / 2;
+}
+
+float TerrainGenerator::getTemperature(float x, float y) {
+	return (temperature.GetNoise(x, y) + 1) / 2;
 }

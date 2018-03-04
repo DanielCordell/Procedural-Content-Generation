@@ -3,6 +3,7 @@
 #include <ctime>
 
 #include <SFML/Graphics.hpp>
+
 #include "Sizes.h"
 
 int main() {
