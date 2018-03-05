@@ -1,6 +1,7 @@
 #include <cstdlib>
 
 #include "TerrainGenerator.h"
+
 FastNoise TerrainGenerator::height;
 FastNoise TerrainGenerator::precipitation;
 FastNoise TerrainGenerator::temperature;
@@ -12,24 +13,26 @@ void TerrainGenerator::InitialiseNoise() {
 	temperature.SetSeed(rand());
 }
 
-float TerrainGenerator::getHeight(float x, float y) {
-	return (height.GetNoise(x, y) + 1) / 2;
+int TerrainGenerator::getHeight(float x, float y) {
+	return static_cast<int>(floor(height.GetNoise(x, y) * 6000 + 2000));
 
 }
 
-float TerrainGenerator::getPrecipitation(float x, float y) {
-	return (precipitation.GetNoise(x, y) + 1) / 2;
+int TerrainGenerator::getPrecipitation(float x, float y) {
+	return static_cast<int>(floor(precipitation.GetNoise(x, y) * 225 + 225));
 }
 
-float TerrainGenerator::getTemperature(float x, float y) {
-	return (temperature.GetNoise(x, y) + 1) / 2;
+int TerrainGenerator::getTemperature(float x, float y) {
+	return static_cast<int>(floor(temperature.GetNoise(x, y) * 25 + 10));
 }
 
 void TerrainGenerator::GenerateTile(Tile * tile) {
-	tile->height = 1000;
+	int x = tile->position.x;
+	int y = tile->position.y;
+	tile->height = getHeight(x, y);
 	tile->biome = Biome::Ocean;
 	tile->groundType = Ground::WaterDeep;
 	tile->isCoast = false;
-	tile->rainfall = 100;
-	tile->temperature = 25;
+	tile->rainfall = getPrecipitation(x, y);
+	tile->temperature = getTemperature(x, y);
 }

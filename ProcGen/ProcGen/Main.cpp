@@ -34,8 +34,8 @@ int main() {
 
 		auto t = map.GetTile(x1, y1);
 		std::cout << "X: " << t.position.x << " Y: " << t.position.y << std::endl;
-		std::cout << "Biome: " << BiomeNameMap.at(t.biome) << std::endl;
-		std::cout << "Ground Type: " << GroundNameMap.at(t.groundType) << std::endl;
-		std::cout << "Height: " << t.height << std::endl << std::endl;
+		std::cout << "Height: " << t.height << "m" << std::endl;
+		std::cout << "Temperature: " << t.temperature << "degrees C" << std::endl;
+		std::cout << "Rainfall: " << t.rainfall << "cm\n\n" << std::endl;
 	}
 }

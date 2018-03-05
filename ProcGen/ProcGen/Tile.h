@@ -47,9 +47,9 @@ public:
 	Ground groundType;
 	Biome biome;
 	bool isCoast;				//If sand && close to ocean
-	int height;					//Height above sea level (km)
+	int height;					//Height above sea level (m)
 	unsigned rainfall;			//Annual precipitation (cm)
-	unsigned temperature;		//Average temperatuer (Degrees C)
+	int temperature;		//Average temperatuer (Degrees C)
 	
 	sf::Vector2i position;		//The position of this tile in the tilemap
 	sf::VertexArray vArr;		//Array of the 4 vertices that make up this tile.
@@ -76,12 +76,12 @@ const std::map<Biome, std::string> BiomeNameMap{
 };
 
 const std::map<Ground, std::string> GroundNameMap{
-	{Ground::Dirt, "Dirt"},			// Brown Color
-	{ Ground::Grass,"Grass"	},		// Coloured based on biome
-	{ Ground::Stone,"Stone" },		// Coloured based on biome?
-	{ Ground::Snow, "Snow"},	// Blueish White/Grey color
-	{ Ground::SandYellow, "Yellow Sand"},		// Yellow
-	{ Ground::SandRed, "Red Sand"},		// Red
-	{ Ground::WaterDeep, "Deep Water"},		// Dark Blue
-	{ Ground::WaterShallow, "Shallow Water"}// Light Blue
+	{ Ground::Dirt, "Dirt" },
+	{ Ground::Grass,"Grass" },
+	{ Ground::Stone,"Stone" },
+	{ Ground::Snow, "Snow" },
+	{ Ground::SandYellow, "Yellow Sand" },
+	{ Ground::SandRed, "Red Sand" },
+	{ Ground::WaterDeep, "Deep Water" },
+	{ Ground::WaterShallow, "Shallow Water" }
 };
