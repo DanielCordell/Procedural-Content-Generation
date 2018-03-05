@@ -1,19 +1,21 @@
-#include <iostream>
+#include <vector>
 
 #include "TileMap.h"
 #include "TerrainGenerator.h"
 #include "Sizes.h"
 
-TileMap::TileMap(unsigned x, unsigned y) : vertexArray(sf::PrimitiveType::Quads, x*y * 4) {
+TileMap::TileMap(unsigned x, unsigned y) : vertexArray() {
 	for (int i = 0; i < x; ++i) {
 		tileMap.push_back(std::vector<std::unique_ptr<Tile>>());
 		for (int j = 0; j < y; ++j) {
-			sf::VertexArray vArr;
+			std::vector<sf::Vertex*> vArr;
 			for (int k = 0; k < 4; ++k) {
-				vArr.append(vertexArray[i*YMAX * 4 + j * 4 + k]);
+				vertexArray.append(sf::Vertex({static_cast<float>(x + (k > 1 ? 1 : 0)),
+					static_cast<float>(y + (k == 1 || k == 2 ? 1 : 0))}));
+				vArr.push_back(&vertexArray[i*YMAX * 4 + j * 4 + k]);
 			}
 			auto t = std::make_unique<Tile>(i, j, vArr);
-			tileMap[i].push_back(move(t));
+			tileMap[i].push_back(std::move(t));
 		}
 	}
 }

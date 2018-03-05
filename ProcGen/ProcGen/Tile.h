@@ -2,6 +2,7 @@
 #include <SFML/Graphics/Vertex.hpp>
 #include <SFML/Graphics/VertexArray.hpp>
 #include <map>
+#include <array>
 
 //Biome Graphs
 //https://i.imgur.com/OYYEStT.png
@@ -46,16 +47,16 @@ private:
 public:
 	Ground groundType;
 	Biome biome;
-	bool isCoast;				//If sand && close to ocean
-	int height;					//Height above sea level (m)
-	unsigned rainfall;			//Annual precipitation (cm)
-	int temperature;		//Average temperatuer (Degrees C)
+	bool isCoast;						//If sand && close to ocean
+	int height;							//Height above sea level (m)
+	unsigned rainfall;					//Annual precipitation (cm)
+	int temperature;					//Average temperatuer (Degrees C)
 	
-	sf::Vector2i position;		//The position of this tile in the tilemap
-	sf::VertexArray vArr;		//Array of the 4 vertices that make up this tile.
+	sf::Vector2i position;				//The position of this tile in the tilemap
+	std::vector<sf::Vertex*> vArr;		//Array of the 4 vertices that make up this tile.
 public:
 	//Constructs a tile based on the x and y coordinates (uses the TerrainGenerator static class).
-	Tile(unsigned x, unsigned y, sf::VertexArray vArr);
+	Tile(unsigned x, unsigned y, std::vector<sf::Vertex*>& vArr);
 };
 
 

@@ -6,14 +6,19 @@
 #include "TerrainGenerator.h"
 #include "TileMap.h"
 #include "Sizes.h"
+#include <SFML/Graphics/RenderWindow.hpp>
 
 int main() {
 	srand(static_cast<unsigned>(time(nullptr)));
 	TerrainGenerator::InitialiseNoise();
 
+	//This will take a while!
 	TileMap map(XMAX, YMAX);
 
-	while (true) {
+	sf::RenderWindow window(sf::VideoMode{ XMAX,YMAX }, "Procedural Terrain Generation");
+
+
+	while (window.isOpen()) {
 		std::string x;
 		std::string y;
 		int x1;
@@ -25,7 +30,6 @@ int main() {
 			x1 = stoi(x);
 
 			std::cout << "Enter a y\n";
-			std::cin >> y;
 			y1 = stoi(y);
 		}
 		catch (std::exception ex) {
