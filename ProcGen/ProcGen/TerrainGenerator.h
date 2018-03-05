@@ -1,8 +1,11 @@
 #pragma once
 
 #include "FastNoise.h"
+#include "Tile.h"
 
-struct TerrainGenerator {
+//IS A FRIEND OF TILE
+//This means that we can edit tile's members in 
+class TerrainGenerator {
 private:
 	static FastNoise height;
 	static FastNoise precipitation;
@@ -17,5 +20,5 @@ private:
 
 public:
 	static void InitialiseNoise();
-
+	static void GenerateTile(Tile* tile);
 };
