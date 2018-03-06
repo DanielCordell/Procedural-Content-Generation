@@ -1,6 +1,7 @@
 #include <cstdlib>
 
 #include "TerrainGenerator.h"
+#include <iostream>
 
 FastNoise TerrainGenerator::height;
 FastNoise TerrainGenerator::precipitation;
@@ -26,7 +27,7 @@ int TerrainGenerator::getTemperature(float x, float y) {
 	return static_cast<int>(floor(temperature.GetNoise(x, y) * 25 + 10));
 }
 
-void TerrainGenerator::GenerateTile(Tile * tile) {
+void TerrainGenerator::GenerateTile(Tile* tile) {
 	int x = tile->position.x;
 	int y = tile->position.y;
 	tile->height = getHeight(x, y);
@@ -35,4 +36,10 @@ void TerrainGenerator::GenerateTile(Tile * tile) {
 	tile->isCoast = false;
 	tile->rainfall = getPrecipitation(x, y);
 	tile->temperature = getTemperature(x, y);
+
+	int scaledHeight = 256 * (tile->height + 4000)/12000.f;
+	sf::Color c(scaledHeight, scaledHeight, scaledHeight);
+	for (auto vertex : tile->vArr) {
+		vertex->color = c;
+	}
 }

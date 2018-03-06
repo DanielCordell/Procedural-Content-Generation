@@ -1,4 +1,4 @@
 #pragma once
 
-#define XMAX 192
-#define YMAX 108
+#define XMAX 1920
+#define YMAX 1080

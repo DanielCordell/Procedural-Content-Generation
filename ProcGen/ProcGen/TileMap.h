@@ -1,11 +1,12 @@
 #pragma once
 #include <memory>
 
+#include <SFML/Graphics.hpp>
 #include <SFML/Graphics/VertexArray.hpp>
 
 #include "Tile.h"
 
-class TileMap {
+class TileMap : public sf::Drawable {
 private:
 	//The drawable vertexArray
 	//This should not be altered after constriction IN ANY WAY apart from via adjustments to the tilemap.
@@ -19,6 +20,6 @@ private:
 
 public:
 	TileMap(unsigned x = 1280, unsigned y = 720);
-
 	Tile GetTile(unsigned x, unsigned y);
+	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 };
