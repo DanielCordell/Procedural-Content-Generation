@@ -10,6 +10,7 @@ FastNoise TerrainGenerator::temperature;
 void TerrainGenerator::InitialiseNoise() {
 	// Using 3 different random numbers, otherwise the height, weather and temperature maps would all be the same!
 	height.SetSeed(rand());
+	height.SetNoiseType(FastNoise::SimplexFractal);
 	precipitation.SetSeed(rand());
 	temperature.SetSeed(rand());
 }
